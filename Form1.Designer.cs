@@ -35,16 +35,31 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.lblAppName = new System.Windows.Forms.Label();
+            this.txtLeftDir = new System.Windows.Forms.TextBox();
+            this.txtRightDir = new System.Windows.Forms.TextBox();
+            this.btnRightDir = new System.Windows.Forms.Button();
+            this.btnCopyFromRight = new System.Windows.Forms.Button();
+            this.btnCopyFromLeft = new System.Windows.Forms.Button();
+            this.btnLeftDir = new System.Windows.Forms.Button();
+            this.lvwrightDir = new System.Windows.Forms.ListView();
+            this.lvwLeftDir = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(30, 30);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -58,64 +73,190 @@
             this.splitContainer1.Panel2.Controls.Add(this.panel3);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(1409, 911);
-            this.splitContainer1.SplitterDistance = 697;
+            this.splitContainer1.Size = new System.Drawing.Size(1352, 851);
+            this.splitContainer1.SplitterDistance = 677;
             this.splitContainer1.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(15, 12);
+            this.panel1.Controls.Add(this.btnCopyFromRight);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(679, 126);
+            this.panel1.Size = new System.Drawing.Size(671, 126);
             this.panel1.TabIndex = 0;
             // 
             // panel2
             // 
-            this.panel2.Location = new System.Drawing.Point(15, 144);
+            this.panel2.Controls.Add(this.btnRightDir);
+            this.panel2.Controls.Add(this.txtRightDir);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 126);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(679, 128);
+            this.panel2.Size = new System.Drawing.Size(671, 128);
             this.panel2.TabIndex = 1;
             // 
             // panel3
             // 
-            this.panel3.Location = new System.Drawing.Point(15, 278);
+            this.panel3.Controls.Add(this.lvwrightDir);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 254);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(679, 621);
+            this.panel3.Size = new System.Drawing.Size(671, 597);
             this.panel3.TabIndex = 2;
             // 
             // panel4
             // 
-            this.panel4.Location = new System.Drawing.Point(16, 12);
+            this.panel4.Controls.Add(this.btnCopyFromLeft);
+            this.panel4.Controls.Add(this.lblAppName);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(669, 126);
+            this.panel4.Size = new System.Drawing.Size(677, 126);
             this.panel4.TabIndex = 0;
             // 
             // panel5
             // 
-            this.panel5.Location = new System.Drawing.Point(16, 144);
+            this.panel5.Controls.Add(this.btnLeftDir);
+            this.panel5.Controls.Add(this.txtLeftDir);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(0, 126);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(668, 128);
+            this.panel5.Size = new System.Drawing.Size(677, 128);
             this.panel5.TabIndex = 1;
             // 
             // panel6
             // 
-            this.panel6.Location = new System.Drawing.Point(16, 278);
+            this.panel6.Controls.Add(this.lvwLeftDir);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(0, 254);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(667, 620);
+            this.panel6.Size = new System.Drawing.Size(677, 597);
             this.panel6.TabIndex = 2;
+            // 
+            // lblAppName
+            // 
+            this.lblAppName.AutoSize = true;
+            this.lblAppName.Font = new System.Drawing.Font("굴림", 25.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblAppName.Location = new System.Drawing.Point(16, 22);
+            this.lblAppName.Name = "lblAppName";
+            this.lblAppName.Padding = new System.Windows.Forms.Padding(5);
+            this.lblAppName.Size = new System.Drawing.Size(477, 79);
+            this.lblAppName.TabIndex = 0;
+            this.lblAppName.Text = "File Compare";
+            // 
+            // txtLeftDir
+            // 
+            this.txtLeftDir.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLeftDir.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtLeftDir.Location = new System.Drawing.Point(0, 84);
+            this.txtLeftDir.Name = "txtLeftDir";
+            this.txtLeftDir.Size = new System.Drawing.Size(504, 44);
+            this.txtLeftDir.TabIndex = 0;
+            // 
+            // txtRightDir
+            // 
+            this.txtRightDir.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRightDir.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtRightDir.Location = new System.Drawing.Point(0, 84);
+            this.txtRightDir.Name = "txtRightDir";
+            this.txtRightDir.Size = new System.Drawing.Size(500, 44);
+            this.txtRightDir.TabIndex = 1;
+            // 
+            // btnRightDir
+            // 
+            this.btnRightDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRightDir.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnRightDir.Location = new System.Drawing.Point(506, 75);
+            this.btnRightDir.Name = "btnRightDir";
+            this.btnRightDir.Size = new System.Drawing.Size(162, 51);
+            this.btnRightDir.TabIndex = 2;
+            this.btnRightDir.Text = "폴더 선택";
+            this.btnRightDir.UseVisualStyleBackColor = true;
+            this.btnRightDir.Click += new System.EventHandler(this.btnRightDir_Click);
+            // 
+            // btnCopyFromRight
+            // 
+            this.btnCopyFromRight.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCopyFromRight.Location = new System.Drawing.Point(3, 42);
+            this.btnCopyFromRight.Name = "btnCopyFromRight";
+            this.btnCopyFromRight.Size = new System.Drawing.Size(103, 49);
+            this.btnCopyFromRight.TabIndex = 3;
+            this.btnCopyFromRight.Text = "<<<";
+            this.btnCopyFromRight.UseVisualStyleBackColor = true;
+            // 
+            // btnCopyFromLeft
+            // 
+            this.btnCopyFromLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopyFromLeft.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCopyFromLeft.Location = new System.Drawing.Point(571, 42);
+            this.btnCopyFromLeft.Name = "btnCopyFromLeft";
+            this.btnCopyFromLeft.Padding = new System.Windows.Forms.Padding(5);
+            this.btnCopyFromLeft.Size = new System.Drawing.Size(103, 49);
+            this.btnCopyFromLeft.TabIndex = 4;
+            this.btnCopyFromLeft.Text = ">>>";
+            this.btnCopyFromLeft.UseVisualStyleBackColor = true;
+            // 
+            // btnLeftDir
+            // 
+            this.btnLeftDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLeftDir.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLeftDir.Location = new System.Drawing.Point(510, 75);
+            this.btnLeftDir.Name = "btnLeftDir";
+            this.btnLeftDir.Size = new System.Drawing.Size(164, 51);
+            this.btnLeftDir.TabIndex = 3;
+            this.btnLeftDir.Text = "폴더 선택";
+            this.btnLeftDir.UseVisualStyleBackColor = true;
+            this.btnLeftDir.Click += new System.EventHandler(this.btnLeftDir_Click);
+            // 
+            // lvwrightDir
+            // 
+            this.lvwrightDir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvwrightDir.HideSelection = false;
+            this.lvwrightDir.Location = new System.Drawing.Point(0, 0);
+            this.lvwrightDir.Name = "lvwrightDir";
+            this.lvwrightDir.Size = new System.Drawing.Size(671, 597);
+            this.lvwrightDir.TabIndex = 0;
+            this.lvwrightDir.UseCompatibleStateImageBehavior = false;
+            // 
+            // lvwLeftDir
+            // 
+            this.lvwLeftDir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvwLeftDir.HideSelection = false;
+            this.lvwLeftDir.Location = new System.Drawing.Point(0, 0);
+            this.lvwLeftDir.Name = "lvwLeftDir";
+            this.lvwLeftDir.Size = new System.Drawing.Size(677, 597);
+            this.lvwLeftDir.TabIndex = 1;
+            this.lvwLeftDir.UseCompatibleStateImageBehavior = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1409, 911);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(1412, 911);
             this.Controls.Add(this.splitContainer1);
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Name = "Form1";
+            this.Padding = new System.Windows.Forms.Padding(30);
             this.Text = "Form1";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -129,6 +270,15 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblAppName;
+        private System.Windows.Forms.Button btnLeftDir;
+        private System.Windows.Forms.TextBox txtLeftDir;
+        private System.Windows.Forms.Button btnCopyFromLeft;
+        private System.Windows.Forms.Button btnRightDir;
+        private System.Windows.Forms.TextBox txtRightDir;
+        private System.Windows.Forms.Button btnCopyFromRight;
+        private System.Windows.Forms.ListView lvwrightDir;
+        private System.Windows.Forms.ListView lvwLeftDir;
     }
 }
 
