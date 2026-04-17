@@ -59,13 +59,25 @@ namespace FileCompare
 
             try
             {
+                // 먼저 하위 폴더를 목록에 추가 (폴더는 파일처럼 취급)
+                var dirs = Directory.EnumerateDirectories(folderPath).Select(p => new DirectoryInfo(p)).OrderBy(d => d.Name);
+                foreach (var d in dirs)
+                {
+                    var item = new ListViewItem(d.Name);
+                    item.SubItems.Add("<DIR>");
+                    item.SubItems.Add(d.LastWriteTime.ToString("g"));
+                    item.Tag = new FileEntry { IsDirectory = true, TimeTicks = d.LastWriteTime.Ticks };
+                    lv.Items.Add(item);
+                }
+
+                // 그 다음 일반 파일을 추가
                 var files = Directory.EnumerateFiles(folderPath).Select(p => new FileInfo(p)).OrderBy(f => f.Name);
                 foreach (var f in files)
                 {
                     var item = new ListViewItem(f.Name);
                     item.SubItems.Add(FormatSizeInKb(f.Length));
                     item.SubItems.Add(f.LastWriteTime.ToString("g"));
-                    item.Tag = f.LastWriteTime.Ticks; // 비교를 위해 원본 시간을 Tag에 저장
+                    item.Tag = new FileEntry { IsDirectory = false, TimeTicks = f.LastWriteTime.Ticks };
                     lv.Items.Add(item);
                 }
             }
@@ -109,9 +121,12 @@ namespace FileCompare
                 return;
             }
 
-            // 둘 다 Tag에 시간(틱)이 들어있다고 가정
-            long currentTime = current.Tag is long ? (long)current.Tag : 0L;
-            long targetTime = target.Tag is long ? (long)target.Tag : 0L;
+            // 둘 다 FileEntry 태그를 사용한다고 가정
+            var curEntry = current.Tag as FileEntry;
+            var tgtEntry = target.Tag as FileEntry;
+
+            long currentTime = curEntry != null ? curEntry.TimeTicks : 0L;
+            long targetTime = tgtEntry != null ? tgtEntry.TimeTicks : 0L;
 
             if (currentTime == targetTime)
             {
@@ -177,18 +192,29 @@ namespace FileCompare
 
             foreach (ListViewItem item in sourceListView.SelectedItems)
             {
-                string fileName = item.Text;
-                string srcPath = Path.Combine(srcDir, fileName);
-                string dstPath = Path.Combine(dstDir, fileName);
+                string name = item.Text;
+                var entry = item.Tag as FileEntry;
+                string srcPath = Path.Combine(srcDir, name);
+                string dstPath = Path.Combine(dstDir, name);
 
                 try
                 {
-                    // 덮어쓰기를 허용
-                    File.Copy(srcPath, dstPath, true);
+                    if (entry != null && entry.IsDirectory)
+                    {
+                        // 디렉터리인 경우 재귀적으로 복사
+                        CopyDirectoryRecursive(srcPath, dstPath);
+                    }
+                    else
+                    {
+                        // 파일 복사 (덮어쓰기 허용)
+                        File.Copy(srcPath, dstPath, true);
+                        // 원본의 시간 정보를 대상에 복사
+                        File.SetLastWriteTime(dstPath, File.GetLastWriteTime(srcPath));
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"파일 복사 오류: {fileName}\n{ex.Message}");
+                    MessageBox.Show($"복사 오류: {name}\n{ex.Message}");
                 }
             }
 
@@ -196,6 +222,41 @@ namespace FileCompare
             PopulateListView(lvwLeftDir, txtLeftDir.Text);
             PopulateListView(lvwRightDir, txtRightDir.Text);
             CompareListViews();
+        }
+
+        // 디렉터리를 재귀적으로 복사
+        private void CopyDirectoryRecursive(string sourceDir, string targetDir)
+        {
+            if (!Directory.Exists(sourceDir)) throw new DirectoryNotFoundException(sourceDir);
+
+            if (!Directory.Exists(targetDir)) Directory.CreateDirectory(targetDir);
+
+            // 파일 복사
+            foreach (var file in Directory.GetFiles(sourceDir))
+            {
+                var fileName = Path.GetFileName(file);
+                var destFile = Path.Combine(targetDir, fileName);
+                File.Copy(file, destFile, true);
+                File.SetLastWriteTime(destFile, File.GetLastWriteTime(file));
+            }
+
+            // 하위 디렉터리 재귀 처리
+            foreach (var dir in Directory.GetDirectories(sourceDir))
+            {
+                var dirName = Path.GetFileName(dir);
+                var destSubDir = Path.Combine(targetDir, dirName);
+                CopyDirectoryRecursive(dir, destSubDir);
+                Directory.SetLastWriteTime(destSubDir, Directory.GetLastWriteTime(dir));
+            }
+            // 생성(또는 덮어쓰기) 후 최상위 대상 디렉터리의 수정시간을 원본과 동일하게 설정
+            Directory.SetLastWriteTime(targetDir, Directory.GetLastWriteTime(sourceDir));
+        }
+
+        // 리스트뷰의 항목에 저장할 정보
+        private class FileEntry
+        {
+            public bool IsDirectory { get; set; }
+            public long TimeTicks { get; set; }
         }
         private void lvwLeftDir_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
