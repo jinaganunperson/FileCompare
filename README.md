@@ -12,10 +12,15 @@
 	- C#과 .NET Windows Forms를 이용하여 파일 비교 기능 구현
 	- label, textbox, button, listview, splitcontainer 등을 이용하여 UI 구성
 	- dock 속성을 이용하여 리스트뷰가 패널의 크기에 맞게 자동으로 조절되도록 함.
+	- anchor 속성을 이용하여 창의 크기를 변경해도 버튼과 텍스트박스, 리스트뷰가 화면에서 잘리지 않도록 함.
+	- try-catch구문을 이용하여 프로그램 실행 중에 예상치 못한 오류가 발생했을 때, 프로그램이 갑자기 꺼지지 않는 기능을 구현함. 
+	- Enumeratefiles매서드를 이용하여 특정 폴더 안의 파일 목록을 하나씩 가져오는 기능을 구현함.
 
 ## 실행 화면(과제1)
 - 코드의 실행 스크린샷과 구현내용 설명
+
 ![실행화면](img/sc1.png)
+
 - 구현한 내용(위 그림 참조)
 	- UI 구성 : label, textbox, button, listview, splitcontainer를 화면에 적절히 배치.
 	- listview를 양 옆에 배치하고, 맨 위에 앱 이름을 알려주는 label과 버튼, panel을 용도에 맞게 적절히 배치함.
@@ -26,7 +31,9 @@
 
 ## 실행화면(과제2)
 -코드의 실행 스크린샷과 구현내용 설명
+
 ![실행화면](img/sc2.png)
+
 - 구현한내용(위그림참조)
 	- populattelistview함수를 이용하여 파일 목록을 보여주는 기능을 구현함.
 	- Enumeratefiles매서드를 이용하여 특정 폴더 안의 파일 목록을 하나씩 가져오는 기능을 구현함.

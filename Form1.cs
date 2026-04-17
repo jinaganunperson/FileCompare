@@ -73,7 +73,8 @@ namespace FileCompare
         // ★ 양쪽 리스트뷰를 정밀 비교하여 색상을 입히는 핵심 함수
         private void CompareListViews()
         {
-            if (lvwLeftDir.Items.Count == 0 || lvwRightDir.Items.Count == 0) return;
+            // 둘 다 비어있으면 비교할 필요 없음
+            if (lvwLeftDir.Items.Count == 0 && lvwRightDir.Items.Count == 0) return;
 
             lvwLeftDir.BeginUpdate();
             lvwRightDir.BeginUpdate();
@@ -98,23 +99,33 @@ namespace FileCompare
 
         private void SetItemColor(ListViewItem current, ListViewItem target)
         {
+            // 상대 항목이 없으면 단독 파일: 보라색
             if (target == null)
             {
-                current.ForeColor = Color.Red; // 상대방에 없음 (독고다이)
+                current.ForeColor = Color.Purple; // 단독 파일
+                return;
+            }
+
+            // 둘 다 Tag에 시간(틱)이 들어있다고 가정
+            long currentTime = current.Tag is long ? (long)current.Tag : 0L;
+            long targetTime = target.Tag is long ? (long)target.Tag : 0L;
+
+            if (currentTime == targetTime)
+            {
+                current.ForeColor = Color.Black; // 동일 파일
+                target.ForeColor = Color.Black;
+            }
+            else if (currentTime > targetTime)
+            {
+                // current가 newer
+                current.ForeColor = Color.Red;   // newer는 빨간색
+                target.ForeColor = Color.Gray;   // older는 회색
             }
             else
             {
-                long currentTime = (long)current.Tag;
-                long targetTime = (long)target.Tag;
-
-                if (currentTime == targetTime)
-                {
-                    current.ForeColor = Color.Black; // 동일 파일
-                }
-                else
-                {
-                    current.ForeColor = Color.Purple; // ★ 이름은 같은데 내용(시간)이 다름!
-                }
+                // current가 older
+                current.ForeColor = Color.Gray;  // older는 회색
+                target.ForeColor = Color.Red;    // newer는 빨간색
             }
         }
 
