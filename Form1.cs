@@ -368,6 +368,11 @@ namespace FileCompare
                 }
             }
         }
+
+        private void lvwLeftDir_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
     
         // 리스트뷰의 DrawItem 이벤트가 디자인 파일에 등록되어 있다면 이 메서드가 반드시 있어야 합니다.

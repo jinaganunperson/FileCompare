@@ -112,21 +112,22 @@
             this.lvwLeftDir.UseCompatibleStateImageBehavior = false;
             this.lvwLeftDir.View = System.Windows.Forms.View.Details;
             this.lvwLeftDir.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvwLeftDir_DrawItem);
+            this.lvwLeftDir.SelectedIndexChanged += new System.EventHandler(this.lvwLeftDir_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "이름";
-            this.columnHeader1.Width = 300;
+            this.columnHeader1.Width = 200;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "크기";
-            this.columnHeader2.Width = 100;
+            this.columnHeader2.Width = 75;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "수정일";
-            this.columnHeader3.Width = 100;
+            this.columnHeader3.Width = 150;
             // 
             // panel5
             // 
@@ -174,7 +175,7 @@
             // btnCopyFromLeft
             // 
             this.btnCopyFromLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopyFromLeft.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCopyFromLeft.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCopyFromLeft.Location = new System.Drawing.Point(571, 42);
             this.btnCopyFromLeft.Name = "btnCopyFromLeft";
             this.btnCopyFromLeft.Padding = new System.Windows.Forms.Padding(5);
@@ -281,7 +282,7 @@
             // 
             // btnCopyFromRight
             // 
-            this.btnCopyFromRight.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCopyFromRight.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCopyFromRight.Location = new System.Drawing.Point(3, 42);
             this.btnCopyFromRight.Name = "btnCopyFromRight";
             this.btnCopyFromRight.Size = new System.Drawing.Size(103, 49);
