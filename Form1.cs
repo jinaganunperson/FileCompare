@@ -17,6 +17,9 @@ namespace FileCompare
             // OwnerDraw는 직접 그릴 때만 사용하므로 false가 맞습니다.
             lvwLeftDir.OwnerDraw = false;
             lvwRightDir.OwnerDraw = false;
+            // 복사 버튼 이벤트 연결
+            btnCopyFromLeft.Click += btnCopyFromLeft_Click;
+            btnCopyFromRight.Click += btnCopyFromRight_Click;
         }
 
         private void btnLeftDir_Click(object sender, EventArgs e)
@@ -141,6 +144,58 @@ namespace FileCompare
         private string FormatSizeInKb(long bytes)
         {
             return (bytes / 1024).ToString("N0") + " KB";
+        }
+
+        private void btnCopyFromLeft_Click(object sender, EventArgs e)
+        {
+            CopySelectedFiles(lvwLeftDir, txtLeftDir.Text, txtRightDir.Text);
+        }
+
+        private void btnCopyFromRight_Click(object sender, EventArgs e)
+        {
+            CopySelectedFiles(lvwRightDir, txtRightDir.Text, txtLeftDir.Text);
+        }
+
+        // 선택한 파일들을 srcDir에서 dstDir로 복사하고 리스트뷰를 갱신
+        private void CopySelectedFiles(ListView sourceListView, string srcDir, string dstDir)
+        {
+            if (string.IsNullOrWhiteSpace(srcDir) || !Directory.Exists(srcDir))
+            {
+                MessageBox.Show("원본 폴더가 유효하지 않습니다.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(dstDir) || !Directory.Exists(dstDir))
+            {
+                MessageBox.Show("대상 폴더가 유효하지 않습니다.");
+                return;
+            }
+            if (sourceListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("복사할 파일을 선택하세요.");
+                return;
+            }
+
+            foreach (ListViewItem item in sourceListView.SelectedItems)
+            {
+                string fileName = item.Text;
+                string srcPath = Path.Combine(srcDir, fileName);
+                string dstPath = Path.Combine(dstDir, fileName);
+
+                try
+                {
+                    // 덮어쓰기를 허용
+                    File.Copy(srcPath, dstPath, true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"파일 복사 오류: {fileName}\n{ex.Message}");
+                }
+            }
+
+            // 양쪽 리스트뷰를 갱신하고 비교
+            PopulateListView(lvwLeftDir, txtLeftDir.Text);
+            PopulateListView(lvwRightDir, txtRightDir.Text);
+            CompareListViews();
         }
         private void lvwLeftDir_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
