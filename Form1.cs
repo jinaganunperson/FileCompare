@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -20,6 +21,11 @@ namespace FileCompare
             // 복사 버튼 이벤트 연결
             btnCopyFromLeft.Click += btnCopyFromLeft_Click;
             btnCopyFromRight.Click += btnCopyFromRight_Click;
+            // 삭제 키 처리
+            lvwLeftDir.KeyDown += Lvw_KeyDown;
+            lvwRightDir.KeyDown += Lvw_KeyDown;
+            // 파일 열기 버튼 이벤트 연결
+            btnfileopen.Click += btnfileopen_Click;
         }
 
         private void btnLeftDir_Click(object sender, EventArgs e)
@@ -252,6 +258,59 @@ namespace FileCompare
             Directory.SetLastWriteTime(targetDir, Directory.GetLastWriteTime(sourceDir));
         }
 
+        // 리스트뷰에서 Delete 키를 눌렀을 때 호출
+        private void Lvw_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Delete) return;
+
+            var lv = sender as ListView;
+            if (lv == null || lv.SelectedItems.Count == 0) return;
+
+            var res = MessageBox.Show("선택한 항목을 삭제하시겠습니까?", "삭제 확인", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (res != DialogResult.Yes) return;
+
+            string baseDir = lv == lvwLeftDir ? txtLeftDir.Text : txtRightDir.Text;
+            DeleteSelectedItems(lv, baseDir);
+            e.Handled = true;
+        }
+
+        // 선택된 항목(파일 또는 디렉터리)을 삭제하고 리스트뷰 갱신
+        private void DeleteSelectedItems(ListView sourceListView, string baseDir)
+        {
+            if (string.IsNullOrWhiteSpace(baseDir) || !Directory.Exists(baseDir))
+            {
+                MessageBox.Show("작업할 폴더가 유효하지 않습니다.");
+                return;
+            }
+
+            foreach (ListViewItem item in sourceListView.SelectedItems)
+            {
+                string name = item.Text;
+                string path = Path.Combine(baseDir, name);
+                try
+                {
+                    var entry = item.Tag as FileEntry;
+                    if (entry != null && entry.IsDirectory)
+                    {
+                        Directory.Delete(path, true);
+                    }
+                    else
+                    {
+                        if (File.Exists(path)) File.Delete(path);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"삭제 오류: {name}\n{ex.Message}");
+                }
+            }
+
+            // 갱신
+            PopulateListView(lvwLeftDir, txtLeftDir.Text);
+            PopulateListView(lvwRightDir, txtRightDir.Text);
+            CompareListViews();
+        }
+
         // 리스트뷰의 항목에 저장할 정보
         private class FileEntry
         {
@@ -267,6 +326,47 @@ namespace FileCompare
         private void lvwRightDir_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             e.DrawDefault = true;
+        }
+
+        // 파일 열기 버튼 클릭 처리: 선택된 항목(파일 또는 폴더)을 기본 앱으로 엶
+        private void btnfileopen_Click(object sender, EventArgs e)
+        {
+            // 우선 포커스가 있는 리스트뷰를 우선 사용하고, 없으면 선택 항목이 있는 쪽을 사용
+            ListView source = null;
+            if (lvwLeftDir.Focused) source = lvwLeftDir;
+            else if (lvwRightDir.Focused) source = lvwRightDir;
+            else if (lvwLeftDir.SelectedItems.Count > 0) source = lvwLeftDir;
+            else if (lvwRightDir.SelectedItems.Count > 0) source = lvwRightDir;
+
+            if (source == null || source.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("열 파일을 선택하세요.", "정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string baseDir = source == lvwLeftDir ? txtLeftDir.Text : txtRightDir.Text;
+
+            foreach (ListViewItem item in source.SelectedItems)
+            {
+                string name = item.Text;
+                string path = Path.Combine(baseDir, name);
+                try
+                {
+                    if (Directory.Exists(path) || File.Exists(path))
+                    {
+                        // 기본 연결 프로그램으로 열기 (디렉터리는 탐색기로 열림)
+                        Process.Start(path);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"파일이 존재하지 않습니다:\n{path}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"파일을 열 수 없습니다:\n{name}\n{ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
     

@@ -50,6 +50,7 @@
             this.txtRightDir = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCopyFromRight = new System.Windows.Forms.Button();
+            this.btnfileopen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -270,6 +271,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnfileopen);
             this.panel1.Controls.Add(this.btnCopyFromRight);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -286,6 +288,16 @@
             this.btnCopyFromRight.TabIndex = 3;
             this.btnCopyFromRight.Text = "<<<";
             this.btnCopyFromRight.UseVisualStyleBackColor = true;
+            // 
+            // btnfileopen
+            // 
+            this.btnfileopen.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnfileopen.Location = new System.Drawing.Point(472, 20);
+            this.btnfileopen.Name = "btnfileopen";
+            this.btnfileopen.Size = new System.Drawing.Size(185, 48);
+            this.btnfileopen.TabIndex = 4;
+            this.btnfileopen.Text = "파일 열기";
+            this.btnfileopen.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -339,6 +351,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.Button btnfileopen;
     }
 }
 
