@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel6 = new System.Windows.Forms.Panel();
             this.lvwLeftDir = new System.Windows.Forms.ListView();
@@ -100,6 +99,7 @@
             this.columnHeader2,
             this.columnHeader3});
             this.lvwLeftDir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvwLeftDir.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lvwLeftDir.FullRowSelect = true;
             this.lvwLeftDir.GridLines = true;
             this.lvwLeftDir.HideSelection = false;
@@ -209,6 +209,7 @@
             this.columnHeader5,
             this.columnHeader6});
             this.lvwRightDir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvwRightDir.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lvwRightDir.FullRowSelect = true;
             this.lvwRightDir.GridLines = true;
             this.lvwRightDir.HideSelection = false;
