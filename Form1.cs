@@ -100,22 +100,62 @@ namespace FileCompare
             lvwLeftDir.BeginUpdate();
             lvwRightDir.BeginUpdate();
 
-            // 1. 왼쪽 기준 비교
-            foreach (ListViewItem leftItem in lvwLeftDir.Items)
+            // 맵 생성
+            var leftMap = new Dictionary<string, ListViewItem>(StringComparer.OrdinalIgnoreCase);
+            foreach (ListViewItem li in lvwLeftDir.Items) leftMap[li.Text] = li;
+            var rightMap = new Dictionary<string, ListViewItem>(StringComparer.OrdinalIgnoreCase);
+            foreach (ListViewItem ri in lvwRightDir.Items) rightMap[ri.Text] = ri;
+
+            int leftOnly = 0, rightOnly = 0, identical = 0, different = 0;
+
+            // 왼쪽 기준 처리
+            foreach (var kv in leftMap)
             {
-                ListViewItem rightMatch = FindItem(lvwRightDir, leftItem.Text);
-                SetItemColor(leftItem, rightMatch);
+                if (!rightMap.TryGetValue(kv.Key, out var rightItem))
+                {
+                    leftOnly++;
+                    SetItemColor(kv.Value, null);
+                }
+                else
+                {
+                    var lEntry = kv.Value.Tag as FileEntry;
+                    var rEntry = rightItem.Tag as FileEntry;
+                    long lt = lEntry != null ? lEntry.TimeTicks : 0L;
+                    long rt = rEntry != null ? rEntry.TimeTicks : 0L;
+                    if (lt == rt) { identical++; SetItemColor(kv.Value, rightItem); }
+                    else { different++; SetItemColor(kv.Value, rightItem); }
+                }
             }
 
-            // 2. 오른쪽 기준 비교
-            foreach (ListViewItem rightItem in lvwRightDir.Items)
+            // 오른쪽 전용 카운트 및 오른쪽 항목 색상 보장
+            foreach (var kv in rightMap)
             {
-                ListViewItem leftMatch = FindItem(lvwLeftDir, rightItem.Text);
-                SetItemColor(rightItem, leftMatch);
+                if (!leftMap.ContainsKey(kv.Key))
+                {
+                    rightOnly++;
+                    SetItemColor(kv.Value, null);
+                }
+                else
+                {
+                    // common 항목은 이미 색상을 설정했지만 오른쪽 항목이 목적(target)으로만 설정되었을 수 있으므로 다시 설정
+                    var leftItem = leftMap[kv.Key];
+                    SetItemColor(kv.Value, leftItem);
+                }
             }
 
             lvwLeftDir.EndUpdate();
             lvwRightDir.EndUpdate();
+
+            // 상태 표시줄에 요약 통계 출력
+            try
+            {
+                if (this.toolStripStatusLabelSummary != null)
+                {
+                    this.toolStripStatusLabelSummary.Text =
+                        $"동일 파일: {identical}개, 차이 나는 파일: {different}개, 왼쪽 전용: {leftOnly}개, 오른쪽 전용: {rightOnly}개";
+                }
+            }
+            catch { }
         }
 
         private void SetItemColor(ListViewItem current, ListViewItem target)
